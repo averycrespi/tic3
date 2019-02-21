@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class InputControl : MonoBehaviour
+public class CameraInputHandler : MonoBehaviour
 {
     public GameObject cameraOrbit;
     public float rotateSpeed = 2f;
