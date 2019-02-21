@@ -2,12 +2,12 @@
 
 public class CameraController : MonoBehaviour
 {
-    public Transform cameraOrbit;
+    public Transform orbit;
     public Transform target;
 
     void Start()
     {
-        cameraOrbit.position = target.position;
+        orbit.position = target.position;
     }
 
     void Update()

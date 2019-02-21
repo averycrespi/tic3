@@ -2,7 +2,8 @@
 
 public class CameraInputHandler : MonoBehaviour
 {
-    public GameObject cameraOrbit;
+    public GameObject orbit;
+
     public float rotateSpeed = 2f;
 
     void Update()
@@ -12,22 +13,22 @@ public class CameraInputHandler : MonoBehaviour
             float h = rotateSpeed * Input.GetAxis("Mouse X");
             float v = rotateSpeed * Input.GetAxis("Mouse Y");
 
-            if (cameraOrbit.transform.eulerAngles.z + v <= 0.1f || cameraOrbit.transform.eulerAngles.z + v >= 179.9f)
+            if (orbit.transform.eulerAngles.z + v <= 0.1f || orbit.transform.eulerAngles.z + v >= 179.9f)
             {
                 v = 0;
             }
-                
-            cameraOrbit.transform.eulerAngles = new Vector3(
-                cameraOrbit.transform.eulerAngles.x,
-                cameraOrbit.transform.eulerAngles.y + h,
-                cameraOrbit.transform.eulerAngles.z + v
+
+            orbit.transform.eulerAngles = new Vector3(
+                orbit.transform.eulerAngles.x,
+                orbit.transform.eulerAngles.y + h,
+                orbit.transform.eulerAngles.z + v
             );
         }
 
         float scrollFactor = Input.GetAxis("Mouse ScrollWheel");
         if (scrollFactor != 0)
         {
-            cameraOrbit.transform.localScale = cameraOrbit.transform.localScale * (1f - scrollFactor);
+            orbit.transform.localScale = orbit.transform.localScale * (1f - scrollFactor);
         }
     }
 }
