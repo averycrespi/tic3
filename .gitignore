@@ -4,5 +4,5 @@
 
 # Whitelist
 !.gitignore
-!Assets/
-!ProjectSettings/
+!tic3/Assets/
+!tic3/ProjectSettings/
