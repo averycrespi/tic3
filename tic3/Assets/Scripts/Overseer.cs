@@ -1,11 +1,12 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
+using UnityEngine.UI;
 
 public class Overseer : MonoBehaviour
 {
     public static Overseer instance = null;
 
     public GameObject board;
+    public Text turnText;
     public Material normal;
     public Material normalBlue;
     public Material normalRed;
@@ -26,7 +27,15 @@ public class Overseer : MonoBehaviour
 
         controller = board.GetComponent<BoardController>();
         controller.InitializeBoard();
-        isRedTurn = true;
+        isRedTurn = false;
+        UpdateTurn();
+    }
+
+    private void UpdateTurn()
+    {
+        isRedTurn = !isRedTurn;
+        turnText.text = isRedTurn ? "Red's Turn" : "Blue's Turn";
+        turnText.color = isRedTurn ? Color.red : Color.blue;
     }
 
     public void HandleClick(string name)
@@ -37,7 +46,7 @@ public class Overseer : MonoBehaviour
 
         Material m = isRedTurn ? normalRed : normalBlue;
         if (controller.Play(superIndex, subIndex, m)) {
-            isRedTurn = !isRedTurn;
+            UpdateTurn();
             //TODO: check for game over
         }
     }
