@@ -8,43 +8,50 @@ public class BoardHelper : MonoBehaviour
 
     private void Start()
     {
-        List<int> additives = new List<int>();
-
-        // Left -> right
-        additives.Add(3);
-
-        // Front -> back
-        additives.Add(1);
-
-        // Bottom -> top
-        additives.Add(9);
-
-        // Back left -> front right
-        additives.Add(2);
-
-        // Front left -> back right
-        additives.Add(4);
-
-        // Bottom left -> top right
-        additives.Add(12);
-
-        // Bottom front -> top back
-        additives.Add(10);
-
-        // Bottom back left -> top front right
-        additives.Add(11);
-
-        // Bottom front left -> top back right
-        additives.Add(13);
+        /*
+         * Layout:
+         * 
+         * 20   19  18
+         * 11   10  9
+         * 2    1   0
+         * 
+         * 23   22  21
+         * 14   13  12
+         * 5    4   3
+         * 
+         * 26   25  24
+         * 17   16  15
+         * 8    7   6
+         * 
+         * Additives:
+         * 
+         * Right        -> left         = 1
+         * Front        -> back         = 9
+         * Bottom       -> top          = 3
+         * 
+         * Left front   -> right back   = 8
+         * Right front  -> left back    = 10
+         * 
+         * Left bottom  -> Right top    = 2
+         * Right bottom -> Left top     = 4
+         * 
+         * Front bottom -> Back top     = 12
+         * Back bottom  -> Front top    = 6
+         * 
+         * Left back bottom -> Right front top = 7
+         * Right back bottom -> Left front top = 5
+         * Left front bottom -> Right back top = 11
+         * Right front bottom -> Left back top = 13
+         */
 
         winSets = new List<Tuple<int, int, int>>();
-        foreach (int additive in additives)
+        for (int a = 1; a < 14; a++)
         {
             for (int i = 0; i < 26; i++)
             {
-                if (i + (additive * 2) <= 26)
+                if (i + (a * 2) <= 26)
                 {
-                    winSets.Add(new Tuple<int, int, int>(i, i + additive, i + (additive * 2)));
+                    winSets.Add(new Tuple<int, int, int>(i, i + a, i + (a * 2)));
                 }
             }
         }
