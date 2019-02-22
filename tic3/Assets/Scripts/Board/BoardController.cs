@@ -14,11 +14,11 @@ public class BoardController : MonoBehaviour
 
     private float subCubeSize = 1f;
     private GameObject cubePrefab;
-    private List<List<GameObject>> cubes;
+    private List<List<GameObject>> superCubes;
 
-    List<List<GameObject>> CreateSuperCubes()
+    void CreateSuperCubes()
     {
-        List<List<GameObject>> superCubes = new List<List<GameObject>>();
+        superCubes = new List<List<GameObject>>();
         float superCubeDistance = (3 * (subCubeSize + subCubeGap)) + superCubeGap;
         int superIndex = 0;
         for (int x = -1; x < 2; x++)
@@ -33,7 +33,6 @@ public class BoardController : MonoBehaviour
                 }
             }
         }
-        return superCubes;
     }
 
     List<GameObject> CreateSubCubes(Vector3 cubePosition, int superIndex)
@@ -85,20 +84,13 @@ public class BoardController : MonoBehaviour
 
     public void SetCubeMaterial(int superIndex, int subIndex, Material m)
     {
-        cubes[superIndex][subIndex].GetComponent<Renderer>().material = m;
-    }
-
-    public void InitializeBoard()
-    {
-        Debug.Log("Initializing board");
-        cubePrefab = Resources.Load<GameObject>("Prefabs/Cube");
-        cubes = CreateSuperCubes();
+        superCubes[superIndex][subIndex].GetComponent<Renderer>().material = m;
     }
 
     public void UnhideAll()
     {
         Debug.Log("Unhiding all");
-        foreach (List<GameObject> super in cubes)
+        foreach (List<GameObject> super in superCubes)
         {
             foreach (GameObject sub in super)
             {
@@ -107,15 +99,15 @@ public class BoardController : MonoBehaviour
         }
     }
 
-    public void HideAllExcept(int index)
+    public void HideAllExcept(int superIndex)
     {
-        Debug.Log("Hiding all except: " + index.ToString());
-        for (int i = 0; i < cubes.Count; i++)
+        Debug.Log("Hiding all except: " + superIndex.ToString());
+        for (int i = 0; i < superCubes.Count; i++)
         {
-            foreach (GameObject sub in cubes[i])
+            foreach (GameObject sub in superCubes[i])
             {
                 Renderer r = sub.GetComponent<Renderer>();
-                if (i == index)
+                if (i == superIndex)
                 {
                     MarkNormal(r);
                 }
@@ -127,9 +119,16 @@ public class BoardController : MonoBehaviour
         }
     }
 
-    public bool IsFull(int index)
+    public bool IsFull(int superIndex)
     {
         //TODO: implement
         return false;
+    }
+
+    public void InitializeBoard()
+    {
+        Debug.Log("Initializing board");
+        cubePrefab = Resources.Load<GameObject>("Prefabs/Cube");
+        CreateSuperCubes();
     }
 }

@@ -37,21 +37,23 @@ public class Overseer : MonoBehaviour
     public void HandleClick(GameObject cube)
     {
         Tuple<int, int> indexes = ParseName(cube.name);
-        Debug.Log("Handing click: super=" + indexes.Item1.ToString() + ", sub=" + indexes.Item2.ToString());
+        int superIndex = indexes.Item1;
+        int subIndex = indexes.Item2;
+        Debug.Log("Handing click: superIndex=" + superIndex.ToString() + ", subIndex=" + subIndex.ToString());
 
-        if (legalIndex == -1 || indexes.Item1 == legalIndex)
+        if (legalIndex == -1 || superIndex == legalIndex)
         {
-            controller.SetCubeMaterial(indexes.Item1, indexes.Item2, normalRed);
+            controller.SetCubeMaterial(superIndex, subIndex, normalRed);
 
-            if (controller.IsFull(indexes.Item2))
+            if (controller.IsFull(subIndex))
             {  
                 controller.UnhideAll();
                 legalIndex = -1;
             }
             else
             {
-                controller.HideAllExcept(indexes.Item2);
-                legalIndex = indexes.Item2;
+                controller.HideAllExcept(subIndex);
+                legalIndex = subIndex;
             }
         }
     }
