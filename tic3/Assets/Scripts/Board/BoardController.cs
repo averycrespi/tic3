@@ -6,6 +6,8 @@ public class BoardController : MonoBehaviour
     public Transform board;
     public Material normal;
     public Material hidden;
+    public Material normalRed;
+    public Material hiddenRed;
 
     public float subCubeGap = 1f;
     public float superCubeGap = 3f;
@@ -58,6 +60,34 @@ public class BoardController : MonoBehaviour
         return subCubes;
     }
 
+    private void MarkHidden(Renderer r)
+    {
+        if (r.sharedMaterial == hiddenRed || r.sharedMaterial == normalRed) {
+            r.material = hiddenRed;
+        }
+        else 
+        {
+            r.material = hidden;
+        }
+    }
+
+    private void MarkNormal(Renderer r)
+    {
+        if (r.sharedMaterial == hiddenRed || r.sharedMaterial == normalRed)
+        {
+            r.material = normalRed;
+        }
+        else
+        {
+            r.material = normal;
+        }
+    }
+
+    public void SetCubeMaterial(int superIndex, int subIndex, Material m)
+    {
+        cubes[superIndex][subIndex].GetComponent<Renderer>().material = m;
+    }
+
     public void InitializeBoard()
     {
         Debug.Log("Initializing board");
@@ -72,8 +102,7 @@ public class BoardController : MonoBehaviour
         {
             foreach (GameObject sub in super)
             {
-                Renderer rend = sub.GetComponent<Renderer>();
-                rend.material = normal;
+                MarkNormal(sub.GetComponent<Renderer>());
             }
         }
     }
@@ -83,13 +112,24 @@ public class BoardController : MonoBehaviour
         Debug.Log("Hiding all except: " + index.ToString());
         for (int i = 0; i < cubes.Count; i++)
         {
-            Material m = (i == index) ? normal : hidden;
             foreach (GameObject sub in cubes[i])
             {
-                Renderer rend = sub.GetComponent<Renderer>();
-                rend.material = m;
+                Renderer r = sub.GetComponent<Renderer>();
+                if (i == index)
+                {
+                    MarkNormal(r);
+                }
+                else
+                {
+                    MarkHidden(r);
+                }
             }
-
         }
+    }
+
+    public bool IsFull(int index)
+    {
+        //TODO: implement
+        return false;
     }
 }
