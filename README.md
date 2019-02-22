@@ -16,19 +16,7 @@ tic<sup>3</sup> (pronounced "tick cubed") is a variant of 3D ultimate tic-tac-to
 
 - You may not play in the centre supercube on the first turn of the game.
 
-## Controls
-
-- Click on a cube to make a move.
-
-- Click and drag to rotate the camera.
-
-- Scroll to zoom in or out.
-
-- Press space to toggle automatic camera rotation.
-
-- Click on the reset button to reset the game.
-
-# Credits
+## Credits
 
 "Unity" Kevin MacLeod (incompetech.com)
 

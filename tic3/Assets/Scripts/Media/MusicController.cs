@@ -1,20 +1,24 @@
 ﻿using UnityEngine;
-using UnityEngine.UI;
 
-public class MuteButtonController : MonoBehaviour
+public class MusicController : MonoBehaviour
 {
     public AudioSource music;
-    public Button muteButton;
-    public Text muteText;
 
     private bool isPlaying = true;
 
     private void Start()
     {
         music.loop = true;
-        music.volume = 0.5f;
+        music.volume = 0.1f;
         music.Play();
-        muteButton.onClick.AddListener(ToggleMusic);
+    }
+
+    private void Update()
+    {
+        if (Input.GetKeyUp("m"))
+        {
+            ToggleMusic();
+        }
     }
 
     private void ToggleMusic()
@@ -22,12 +26,10 @@ public class MuteButtonController : MonoBehaviour
         if (isPlaying)
         {
             music.mute = true;
-            muteText.text = "Unmute";
         }
         else
         {
             music.mute = false;
-            muteText.text = "Mute";
         }
         isPlaying = !isPlaying;
     }
