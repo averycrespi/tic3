@@ -35,8 +35,6 @@ public class Overseer : MonoBehaviour
     public void HandleClick(GameObject cube)
     {
         Tuple<int, int> indexes = ParseName(cube.name);
-        Debug.Log("Handing click: super=" + indexes.Item1.ToString() + ", sub=" +indexes.Item2.ToString());
-
-        controller.HideAllExcept(indexes.Item2);
+        Debug.Log("Handing click: super=" + indexes.Item1.ToString() + ", sub=" + indexes.Item2.ToString());
     }
 }
