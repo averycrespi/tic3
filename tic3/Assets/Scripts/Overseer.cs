@@ -5,6 +5,7 @@ public class Overseer : MonoBehaviour
 {
     public static Overseer instance = null;
     public GameObject board;
+    public Material normal;
     public Material normalRed;
 
     private BoardController controller;
@@ -41,7 +42,8 @@ public class Overseer : MonoBehaviour
         int subIndex = indexes.Item2;
         Debug.Log("Handing click: superIndex=" + superIndex.ToString() + ", subIndex=" + subIndex.ToString());
 
-        if (legalIndex == -1 || superIndex == legalIndex)
+        Material current = cube.GetComponent<Renderer>().sharedMaterial;
+        if ((legalIndex == -1 || superIndex == legalIndex) && current == normal)
         {
             controller.SetCubeMaterial(superIndex, subIndex, normalRed);
 

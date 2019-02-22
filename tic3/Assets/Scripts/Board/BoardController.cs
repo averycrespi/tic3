@@ -51,6 +51,7 @@ public class BoardController : MonoBehaviour
                     subCube.transform.localScale = new Vector3(subCubeSize, subCubeSize, subCubeSize);
                     subCube.transform.parent = board;
                     subCube.name = superIndex.ToString() + "," + subIndex.ToString();
+                    subCube.GetComponent<Renderer>().material = normal;
                     subCubes.Add(subCube);
                     subIndex++;
                 }
@@ -121,8 +122,15 @@ public class BoardController : MonoBehaviour
 
     public bool IsFull(int superIndex)
     {
-        //TODO: implement
-        return false;
+        foreach (GameObject sub in superCubes[superIndex])
+        {
+            Material m = sub.GetComponent<Renderer>().sharedMaterial;
+            if (m == normal || m == hidden)
+            {
+                return false;
+            }
+        }
+        return true;
     }
 
     public void InitializeBoard()
