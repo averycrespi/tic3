@@ -3,10 +3,9 @@
 public class CameraInputHandler : MonoBehaviour
 {
     public GameObject orbit;
-
     public float rotateSpeed = 2f;
 
-    void Update()
+    private void Update()
     {
         if (Input.GetMouseButton(0))
         {

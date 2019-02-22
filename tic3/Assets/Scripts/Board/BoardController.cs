@@ -14,13 +14,17 @@ public class BoardController : MonoBehaviour
     public float subCubeGap = 2f;
     public float superCubeGap = 6f;
 
-    private float subCubeSize = 1f;
-    private GameObject cubePrefab;
-    private List<List<GameObject>> superCubes;
+    private const int anywhereIndex = -1;
+    private const int fullStatus = 27;
+    private const float subCubeSize = 1f;
+    private int currentIndex;
+    private GameObject prefab;
+    private List<List<GameObject>> cubes;
+    private List<int> cubeStatus;
 
-    void CreateSuperCubes()
+    private List<List<GameObject>> CreateSuperCubes()
     {
-        superCubes = new List<List<GameObject>>();
+        List<List<GameObject>> superCubes = new List<List<GameObject>>();
         float superCubeDistance = (3 * (subCubeSize + subCubeGap)) + superCubeGap;
         int superIndex = 0;
         for (int x = -1; x < 2; x++)
@@ -35,9 +39,10 @@ public class BoardController : MonoBehaviour
                 }
             }
         }
+        return superCubes;
     }
 
-    List<GameObject> CreateSubCubes(Vector3 cubePosition, int superIndex)
+    private List<GameObject> CreateSubCubes(Vector3 cubePosition, int superIndex)
     {
         List<GameObject> subCubes = new List<GameObject>();
         float subCubeDistance = subCubeSize + subCubeGap;
@@ -49,7 +54,7 @@ public class BoardController : MonoBehaviour
                 for (int z = -1; z < 2; z++)
                 {
                     Vector3 position = new Vector3(cubePosition.x + (x * subCubeDistance), cubePosition.y + (y * subCubeDistance), cubePosition.z + (z * subCubeDistance));
-                    GameObject subCube = Instantiate(cubePrefab, position, Quaternion.identity);
+                    GameObject subCube = Instantiate(prefab, position, Quaternion.identity);
                     subCube.transform.localScale = new Vector3(subCubeSize, subCubeSize, subCubeSize);
                     subCube.transform.parent = board;
                     subCube.name = superIndex.ToString() + "," + subIndex.ToString();
@@ -62,87 +67,88 @@ public class BoardController : MonoBehaviour
         return subCubes;
     }
 
-    public bool HasMaterial(int superIndex, int subIndex, Material m)
+    private void Show(int superIndex)
     {
-        return superCubes[superIndex][subIndex].GetComponent<Renderer>().sharedMaterial == m;
-    }
-
-    public void SetMaterial(int superIndex, int subIndex, Material m)
-    {
-        superCubes[superIndex][subIndex].GetComponent<Renderer>().material = m;
-    }
-
-    public bool IsFull(int superIndex)
-    {
-        foreach (GameObject sub in superCubes[superIndex])
+        foreach(GameObject sub in cubes[superIndex])
         {
-            Material m = sub.GetComponent<Renderer>().sharedMaterial;
-            if (m == normal || m == hidden)
+            Renderer r = sub.GetComponent<Renderer>();
+            if (r.sharedMaterial == normalBlue || r.sharedMaterial == hiddenBlue)
             {
-                return false;
+                r.material = normalBlue;
+            }
+            else if (r.sharedMaterial == normalRed || r.sharedMaterial == hiddenRed)
+            {
+                r.material = normalRed;
+            }
+            else
+            {
+                r.material = normal;
             }
         }
-        return true;
     }
 
-    private void MarkHidden(Renderer r)
+    private void Hide(int superIndex)
     {
-        if (r.sharedMaterial == hiddenRed || r.sharedMaterial == normalRed)
+        foreach (GameObject sub in cubes[superIndex])
         {
-            r.material = hiddenRed;
+            Renderer r = sub.GetComponent<Renderer>();
+            if (r.sharedMaterial == normalBlue || r.sharedMaterial == hiddenBlue)
+            {
+                r.material = hiddenBlue;
+            }
+            else if (r.sharedMaterial == normalRed || r.sharedMaterial == hiddenRed)
+            {
+                r.material = hiddenRed;
+            }
+            else
+            {
+                r.material = hidden;
+            }
         }
-        else if (r.sharedMaterial == hiddenBlue || r.sharedMaterial == normalBlue)
+    }
+
+    private void Render()
+    {
+        for (int i = 0; i < cubes.Count; i++)
         {
-            r.material = hiddenBlue;
+            if (cubeStatus[i] == fullStatus)
+            {
+                Hide(i);
+            }
+            else if (currentIndex == i || currentIndex == anywhereIndex)
+            {
+                Show(i);
+            }
+            else
+            {
+                Hide(i);
+            }
+        }
+    }
+
+    public bool Play(int superIndex, int subIndex, Material m)
+    {
+        Renderer target = cubes[superIndex][subIndex].GetComponent<Renderer>();
+        if ((currentIndex == superIndex || currentIndex == anywhereIndex) && target.sharedMaterial == normal)
+        {
+            target.material = m;
+            cubeStatus[superIndex]++;
+            currentIndex = (cubeStatus[superIndex] == fullStatus) ? anywhereIndex : subIndex;
+            //TODO: check for sub/super win
+            Render();
+            return true;
         }
         else
         {
-            r.material = hidden;
-        }
-    }
-
-    private void MarkNormal(Renderer r)
-    {
-        if (r.sharedMaterial == hiddenRed || r.sharedMaterial == normalRed)
-        {
-            r.material = normalRed;
-        }
-        else if (r.sharedMaterial == hiddenBlue || r.sharedMaterial == normalBlue)
-        {
-            r.material = normalBlue;
-        }
-        else
-        {
-            r.material = normal;
-        }
-    }
-
-    public void Show(int superIndex)
-    {
-        for (int i = 0; i < superCubes.Count; i++)
-        {
-            foreach (GameObject sub in superCubes[i])
-            {
-                Renderer r = sub.GetComponent<Renderer>();
-                if (IsFull(i))
-                {
-                    MarkHidden(r);
-                }
-                else if (i == superIndex || superIndex == Overseer.anywhereIndex)
-                {
-                    MarkNormal(r);
-                }
-                else
-                {
-                    MarkHidden(r);
-                }
-            }
+            return false;
         }
     }
 
     public void InitializeBoard()
     {
-        cubePrefab = Resources.Load<GameObject>("Prefabs/Cube");
-        CreateSuperCubes();
+        prefab = Resources.Load<GameObject>("Prefabs/Cube");
+        cubes = CreateSuperCubes();
+        cubeStatus = new List<int>(new int[cubes.Count]);
+        currentIndex = anywhereIndex;
     }
 }

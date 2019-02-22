@@ -5,12 +5,12 @@ public class CameraController : MonoBehaviour
     public Transform orbit;
     public Transform target;
 
-    void Start()
+    private void Start()
     {
         orbit.position = target.position;
     }
 
-    void Update()
+    private void Update()
     {
         transform.rotation = Quaternion.Euler(transform.rotation.x, transform.rotation.y, 0);
         transform.LookAt(target.position);

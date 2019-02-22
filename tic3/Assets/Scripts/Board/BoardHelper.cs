@@ -6,7 +6,7 @@ public class BoardHelper : MonoBehaviour
 {
     public static List<Tuple<int, int, int>> winSets;
 
-    void Start()
+    private void Start()
     {
         List<int> additives = new List<int>();
 

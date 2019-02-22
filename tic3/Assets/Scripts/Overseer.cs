@@ -4,7 +4,6 @@ using UnityEngine;
 public class Overseer : MonoBehaviour
 {
     public static Overseer instance = null;
-    public static int anywhereIndex = -1;
 
     public GameObject board;
     public Material normal;
@@ -12,10 +11,9 @@ public class Overseer : MonoBehaviour
     public Material normalRed;
 
     private BoardController controller;
-    private int legalIndex;
     private bool isRedTurn;
 
-    void Awake()
+    private void Awake()
     {
         if (instance == null)
         {
@@ -28,7 +26,6 @@ public class Overseer : MonoBehaviour
 
         controller = board.GetComponent<BoardController>();
         controller.InitializeBoard();
-        legalIndex = anywhereIndex;
         isRedTurn = true;
     }
 
@@ -38,14 +35,10 @@ public class Overseer : MonoBehaviour
         int superIndex = int.Parse(parts[0]);
         int subIndex = int.Parse(parts[1]);
 
-        if ((legalIndex == -1 || superIndex == legalIndex) && controller.HasMaterial(superIndex, subIndex, normal))
-        {
-            Material m = isRedTurn ? normalRed : normalBlue;
-            controller.SetMaterial(superIndex, subIndex, m);
+        Material m = isRedTurn ? normalRed : normalBlue;
+        if (controller.Play(superIndex, subIndex, m)) {
             isRedTurn = !isRedTurn;
-
-            legalIndex = controller.IsFull(superIndex) ? anywhereIndex : subIndex;
-            controller.Show(legalIndex);
+            //TODO: check for game over
         }
     }
 }
