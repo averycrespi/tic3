@@ -690,6 +690,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   board: {fileID: 1591135693}
+  turnText: {fileID: 503690533}
   normal: {fileID: 2100000, guid: 4027a2df7d016eb4f9059388d75eaaeb, type: 2}
   normalBlue: {fileID: 2100000, guid: 4458a768c51363145b860d50325b923d, type: 2}
   normalRed: {fileID: 2100000, guid: 38726cbd195fcfa4ab16cdd658cf3061, type: 2}

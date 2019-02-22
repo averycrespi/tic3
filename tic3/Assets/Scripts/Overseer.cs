@@ -47,7 +47,11 @@ public class Overseer : MonoBehaviour
         Material m = isRedTurn ? normalRed : normalBlue;
         if (controller.Play(superIndex, subIndex, m)) {
             UpdateTurn();
-            //TODO: check for game over
+            if (controller.IsGameOver())
+            {
+                turnText.text = isRedTurn ? "Blue Wins!" : "Red Wins!";
+                turnText.color = isRedTurn ? Color.blue : Color.red;
+            }
         }
     }
 }

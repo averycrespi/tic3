@@ -17,11 +17,15 @@ public class BoardController : MonoBehaviour
 
     private const int anywhereIndex = -1;
     private const int fullStatus = 27;
+    private const int redWon = 1;
+    private const int blueWon = 2;
     private const float subCubeSize = 1f;
+    private bool isGameOver;
     private int currentIndex;
     private GameObject prefab;
     private List<List<GameObject>> cubes;
     private List<int> cubeStatus;
+    private List<int> cubeWinner;
 
     private List<List<GameObject>> CreateSuperCubes()
     {
@@ -127,7 +131,7 @@ public class BoardController : MonoBehaviour
         }
     }
 
-    private bool IsWon(int superIndex)
+    private bool IsSuperWon(int superIndex)
     {
         List<GameObject> subs = cubes[superIndex];
         foreach (Tuple<int, int, int> winSet in BoardHelper.winSets)
@@ -136,6 +140,21 @@ public class BoardController : MonoBehaviour
             Material m2 = subs[winSet.Item2].GetComponent<Renderer>().sharedMaterial;
             Material m3 = subs[winSet.Item3].GetComponent<Renderer>().sharedMaterial;
             if (m1 != normal && m1 == m2 && m2 == m3)
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private bool IsBoardWon()
+    {
+        foreach (Tuple<int, int, int> winSet in BoardHelper.winSets)
+        {
+            int w1 = cubeWinner[winSet.Item1];
+            int w2 = cubeWinner[winSet.Item2];
+            int w3 = cubeWinner[winSet.Item3];
+            if (w1 != 0 && w1 == w2 && w2 == w3)
             {
                 return true;
             }
@@ -158,10 +177,21 @@ public class BoardController : MonoBehaviour
         {
             target.material = m;
             cubeStatus[superIndex]++;
-            if (IsWon(superIndex))
+            if (IsSuperWon(superIndex))
             {
                 Fill(superIndex, m);
                 cubeStatus[superIndex] = fullStatus;
+                cubeWinner[superIndex] = (m == normalRed) ? redWon : blueWon;
+            }
+            if (IsBoardWon())
+            {
+                for (int i = 0; i < cubes.Count; i++)
+                {
+                    Fill(i, m);
+                    cubeStatus[i] = fullStatus;
+                    cubeWinner[i] = (m == normalRed) ? redWon : blueWon;
+                }
+                isGameOver = true;
             }
             currentIndex = (cubeStatus[subIndex] == fullStatus) ? anywhereIndex : subIndex;
             Render();
@@ -173,11 +203,18 @@ public class BoardController : MonoBehaviour
         }
     }
 
+    public bool IsGameOver()
+    {
+        return isGameOver;
+    }
+
     public void InitializeBoard()
     {
         prefab = Resources.Load<GameObject>("Prefabs/Cube");
         cubes = CreateSuperCubes();
         cubeStatus = new List<int>(new int[cubes.Count]);
+        cubeWinner = new List<int>(new int[cubes.Count]);
         currentIndex = anywhereIndex;
+        isGameOver = false;
     }
 }
