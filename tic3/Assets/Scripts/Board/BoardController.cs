@@ -62,16 +62,40 @@ public class BoardController : MonoBehaviour
         return subCubes;
     }
 
+    public bool HasMaterial(int superIndex, int subIndex, Material m)
+    {
+        return superCubes[superIndex][subIndex].GetComponent<Renderer>().sharedMaterial == m;
+    }
+
+    public void SetMaterial(int superIndex, int subIndex, Material m)
+    {
+        superCubes[superIndex][subIndex].GetComponent<Renderer>().material = m;
+    }
+
+    public bool IsFull(int superIndex)
+    {
+        foreach (GameObject sub in superCubes[superIndex])
+        {
+            Material m = sub.GetComponent<Renderer>().sharedMaterial;
+            if (m == normal || m == hidden)
+            {
+                return false;
+            }
+        }
+        return true;
+    }
+
     private void MarkHidden(Renderer r)
     {
-        if (r.sharedMaterial == hiddenRed || r.sharedMaterial == normalRed) {
+        if (r.sharedMaterial == hiddenRed || r.sharedMaterial == normalRed)
+        {
             r.material = hiddenRed;
         }
         else if (r.sharedMaterial == hiddenBlue || r.sharedMaterial == normalBlue)
         {
             r.material = hiddenBlue;
         }
-        else 
+        else
         {
             r.material = hidden;
         }
@@ -93,26 +117,8 @@ public class BoardController : MonoBehaviour
         }
     }
 
-    public void SetCubeMaterial(int superIndex, int subIndex, Material m)
+    public void Show(int superIndex)
     {
-        superCubes[superIndex][subIndex].GetComponent<Renderer>().material = m;
-    }
-
-    public void UnhideAll()
-    {
-        Debug.Log("Unhiding all");
-        foreach (List<GameObject> super in superCubes)
-        {
-            foreach (GameObject sub in super)
-            {
-                MarkNormal(sub.GetComponent<Renderer>());
-            }
-        }
-    }
-
-    public void HideAllExcept(int superIndex)
-    {
-        Debug.Log("Hiding all except: " + superIndex.ToString());
         for (int i = 0; i < superCubes.Count; i++)
         {
             foreach (GameObject sub in superCubes[i])
@@ -130,22 +136,8 @@ public class BoardController : MonoBehaviour
         }
     }
 
-    public bool IsFull(int superIndex)
-    {
-        foreach (GameObject sub in superCubes[superIndex])
-        {
-            Material m = sub.GetComponent<Renderer>().sharedMaterial;
-            if (m == normal || m == hidden)
-            {
-                return false;
-            }
-        }
-        return true;
-    }
-
     public void InitializeBoard()
     {
-        Debug.Log("Initializing board");
         cubePrefab = Resources.Load<GameObject>("Prefabs/Cube");
         CreateSuperCubes();
     }

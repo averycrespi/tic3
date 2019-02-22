@@ -31,44 +31,22 @@ public class Overseer : MonoBehaviour
         isRedTurn = true;
     }
 
-    Tuple<int, int> ParseName(string name)
+    public void HandleClick(string name)
     {
         string[] parts = name.Split(',');
-        return new Tuple<int, int>(int.Parse(parts[0]), int.Parse(parts[1]));
-    }
+        int superIndex = int.Parse(parts[0]);
+        int subIndex = int.Parse(parts[1]);
 
-    void TakeTurn(int superIndex, int subIndex)
-    {
-        Material m = isRedTurn ? normalRed : normalBlue;
-        controller.SetCubeMaterial(superIndex, subIndex, m);
-        isRedTurn = !isRedTurn;
-    }
-  
-    void AdvanceBoard(int superIndex)
-    {
-        if (controller.IsFull(superIndex))
+        if ((legalIndex == -1 || superIndex == legalIndex) && controller.HasMaterial(superIndex, subIndex, normal))
         {
-            controller.UnhideAll();
-            legalIndex = -1;
-        }
-        else
-        {
-            controller.HideAllExcept(superIndex);
-            legalIndex = superIndex;
-        }
-    }
+            Material m = isRedTurn ? normalRed : normalBlue;
+            controller.SetMaterial(superIndex, subIndex, m);
+            isRedTurn = !isRedTurn;
 
-    public void HandleClick(GameObject cube)
-    {
-        Tuple<int, int> indexes = ParseName(cube.name);
-        int superIndex = indexes.Item1;
-        int subIndex = indexes.Item2;
+            //TODO: completion checks
 
-        Material current = cube.GetComponent<Renderer>().sharedMaterial;
-        if ((legalIndex == -1 || superIndex == legalIndex) && current == normal)
-        {
-            TakeTurn(superIndex, subIndex);
-            AdvanceBoard(subIndex);
+            legalIndex = controller.IsFull(superIndex) ? -1 : subIndex;
+            controller.Show(legalIndex);
         }
     }
 }

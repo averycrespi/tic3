@@ -11,6 +11,6 @@ public class CubeController : MonoBehaviour
 
     void OnMouseUpAsButton()
     {
-        overseer.HandleClick(gameObject);
+        overseer.HandleClick(gameObject.name);
     }
 }
