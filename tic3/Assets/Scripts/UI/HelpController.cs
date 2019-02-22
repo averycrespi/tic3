@@ -16,7 +16,7 @@ public class HelpController : MonoBehaviour
     private void Start()
     {
         helpButton.onClick.AddListener(ShowHelp);
-        confirmRect = new Rect((Screen.width - windowWidth), (Screen.height - windowHeight), windowWidth, windowHeight);
+        confirmRect = new Rect(Screen.width - windowWidth - 10, Screen.height - windowHeight - 10, windowWidth, windowHeight);
         show = false;
     }
 
