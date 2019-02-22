@@ -38,6 +38,34 @@ public class Overseer : MonoBehaviour
         return new Tuple<int, int>(int.Parse(parts[0]), int.Parse(parts[1]));
     }
 
+    void TakeTurn(int superIndex, int subIndex)
+    {
+        if (redTurn)
+        {
+            controller.SetCubeMaterial(superIndex, subIndex, normalRed);
+            redTurn = false;
+        }
+        else
+        {
+            controller.SetCubeMaterial(superIndex, subIndex, normalBlue);
+            redTurn = true;
+        }
+    }
+  
+    void AdvanceBoard(int subIndex)
+    {
+        if (controller.IsFull(subIndex))
+        {
+            controller.UnhideAll();
+            legalIndex = -1;
+        }
+        else
+        {
+            controller.HideAllExcept(subIndex);
+            legalIndex = subIndex;
+        }
+    }
+
     public void HandleClick(GameObject cube)
     {
         Tuple<int, int> indexes = ParseName(cube.name);
@@ -48,27 +76,8 @@ public class Overseer : MonoBehaviour
         Material current = cube.GetComponent<Renderer>().sharedMaterial;
         if ((legalIndex == -1 || superIndex == legalIndex) && current == normal)
         {
-            if (redTurn)
-            {
-                controller.SetCubeMaterial(superIndex, subIndex, normalRed);
-                redTurn = false;
-            }
-            else
-            {
-                controller.SetCubeMaterial(superIndex, subIndex, normalBlue);
-                redTurn = true;
-            }
-
-            if (controller.IsFull(subIndex))
-            {  
-                controller.UnhideAll();
-                legalIndex = -1;
-            }
-            else
-            {
-                controller.HideAllExcept(subIndex);
-                legalIndex = subIndex;
-            }
+            TakeTurn(superIndex, subIndex);
+            AdvanceBoard(subIndex);
         }
     }
 }
