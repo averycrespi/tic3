@@ -4,9 +4,22 @@ public class CameraInputHandler : MonoBehaviour
 {
     public GameObject orbit;
     public float rotateSpeed = 2f;
+    public float autoRotateSpeed = 10f;
+
+    private bool autoRotate = false;
 
     private void Update()
     {
+        if (Input.GetKeyUp("space"))
+        {
+            autoRotate = !autoRotate;
+        }
+
+        if (autoRotate)
+        {
+            orbit.transform.Rotate(Vector3.up * Time.deltaTime * autoRotateSpeed, Space.World);
+        }
+
         if (Input.GetMouseButton(0))
         {
             float h = rotateSpeed * Input.GetAxis("Mouse X");
