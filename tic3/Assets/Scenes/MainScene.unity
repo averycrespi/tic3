@@ -335,11 +335,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   board: {fileID: 1591135697}
   normal: {fileID: 2100000, guid: 4027a2df7d016eb4f9059388d75eaaeb, type: 2}
-  hidden: {fileID: 2100000, guid: 7ddb5b02debf4ea4f8b93c5ea39f2d12, type: 2}
+  normalBlue: {fileID: 2100000, guid: 4458a768c51363145b860d50325b923d, type: 2}
   normalRed: {fileID: 2100000, guid: 38726cbd195fcfa4ab16cdd658cf3061, type: 2}
+  hidden: {fileID: 2100000, guid: 7ddb5b02debf4ea4f8b93c5ea39f2d12, type: 2}
+  hiddenBlue: {fileID: 2100000, guid: 9e312abd9369454408cffb2d9ec04430, type: 2}
   hiddenRed: {fileID: 2100000, guid: 39e6e6e74ccbc5845a300f4275c1115b, type: 2}
-  subCubeGap: 1
-  superCubeGap: 3
+  subCubeGap: 2
+  superCubeGap: 6
 --- !u!23 &1591135695
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -430,6 +432,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   board: {fileID: 1591135693}
   normal: {fileID: 2100000, guid: 4027a2df7d016eb4f9059388d75eaaeb, type: 2}
+  normalBlue: {fileID: 2100000, guid: 4458a768c51363145b860d50325b923d, type: 2}
   normalRed: {fileID: 2100000, guid: 38726cbd195fcfa4ab16cdd658cf3061, type: 2}
 --- !u!4 &1731426867
 Transform:

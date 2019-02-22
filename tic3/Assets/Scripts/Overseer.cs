@@ -6,10 +6,12 @@ public class Overseer : MonoBehaviour
     public static Overseer instance = null;
     public GameObject board;
     public Material normal;
+    public Material normalBlue;
     public Material normalRed;
 
     private BoardController controller;
     private int legalIndex;
+    private bool redTurn;
 
     void Awake()
     {
@@ -26,6 +28,7 @@ public class Overseer : MonoBehaviour
         controller = board.GetComponent<BoardController>();
         controller.InitializeBoard();
         legalIndex = -1;
+        redTurn = true;
     }
 
     Tuple<int, int> ParseName(string name)
@@ -45,7 +48,16 @@ public class Overseer : MonoBehaviour
         Material current = cube.GetComponent<Renderer>().sharedMaterial;
         if ((legalIndex == -1 || superIndex == legalIndex) && current == normal)
         {
-            controller.SetCubeMaterial(superIndex, subIndex, normalRed);
+            if (redTurn)
+            {
+                controller.SetCubeMaterial(superIndex, subIndex, normalRed);
+                redTurn = false;
+            }
+            else
+            {
+                controller.SetCubeMaterial(superIndex, subIndex, normalBlue);
+                redTurn = true;
+            }
 
             if (controller.IsFull(subIndex))
             {  

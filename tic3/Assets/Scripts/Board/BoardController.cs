@@ -5,12 +5,14 @@ public class BoardController : MonoBehaviour
 {
     public Transform board;
     public Material normal;
-    public Material hidden;
+    public Material normalBlue;
     public Material normalRed;
+    public Material hidden;
+    public Material hiddenBlue;
     public Material hiddenRed;
 
-    public float subCubeGap = 1f;
-    public float superCubeGap = 3f;
+    public float subCubeGap = 2f;
+    public float superCubeGap = 6f;
 
     private float subCubeSize = 1f;
     private GameObject cubePrefab;
@@ -65,6 +67,10 @@ public class BoardController : MonoBehaviour
         if (r.sharedMaterial == hiddenRed || r.sharedMaterial == normalRed) {
             r.material = hiddenRed;
         }
+        else if (r.sharedMaterial == hiddenBlue || r.sharedMaterial == normalBlue)
+        {
+            r.material = hiddenBlue;
+        }
         else 
         {
             r.material = hidden;
@@ -76,6 +82,10 @@ public class BoardController : MonoBehaviour
         if (r.sharedMaterial == hiddenRed || r.sharedMaterial == normalRed)
         {
             r.material = normalRed;
+        }
+        else if (r.sharedMaterial == hiddenBlue || r.sharedMaterial == normalBlue)
+        {
+            r.material = normalBlue;
         }
         else
         {
