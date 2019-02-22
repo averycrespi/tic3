@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 public class Overseer : MonoBehaviour
 {
@@ -24,8 +25,18 @@ public class Overseer : MonoBehaviour
         controller.InitializeBoard();
     }
 
+    Tuple<int, int> ParseName(string name)
+    {
+        //TODO: handle errors
+        string[] parts = name.Split(',');
+        return new Tuple<int, int>(int.Parse(parts[0]), int.Parse(parts[1]));
+    }
+
     public void HandleClick(GameObject cube)
     {
-        controller.HideAllExcept(0);
+        Tuple<int, int> indexes = ParseName(cube.name);
+        Debug.Log("Handing click: super=" + indexes.Item1.ToString() + ", sub=" +indexes.Item2.ToString());
+
+        controller.HideAllExcept(indexes.Item2);
     }
 }

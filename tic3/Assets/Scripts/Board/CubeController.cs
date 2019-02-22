@@ -11,7 +11,6 @@ public class CubeController : MonoBehaviour
 
     void OnMouseUp()
     {
-        Debug.Log("Click on: " + gameObject.name);
         overseer.HandleClick(gameObject);
     }
 }

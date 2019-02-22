@@ -67,7 +67,7 @@ public class BoardController : MonoBehaviour
 
     public void UnhideAll()
     {
-        Debug.Log("Unhiding all cubes");
+        Debug.Log("Unhiding all");
         foreach (List<GameObject> super in cubes)
         {
             foreach (GameObject sub in super)
@@ -80,17 +80,16 @@ public class BoardController : MonoBehaviour
 
     public void HideAllExcept(int index)
     {
-        Debug.Log("Hiding all cubes except: " + index.ToString());
+        Debug.Log("Hiding all except: " + index.ToString());
         for (int i = 0; i < cubes.Count; i++)
         {
-            if (i != index)
+            Material m = (i == index) ? normal : hidden;
+            foreach (GameObject sub in cubes[i])
             {
-                foreach (GameObject sub in cubes[i])
-                {
-                    Renderer rend = sub.GetComponent<Renderer>();
-                    rend.material = hidden;
-                }
+                Renderer rend = sub.GetComponent<Renderer>();
+                rend.material = m;
             }
+
         }
     }
 }
