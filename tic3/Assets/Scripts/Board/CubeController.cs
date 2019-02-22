@@ -4,6 +4,6 @@ public class CubeController : MonoBehaviour
 {
     void OnMouseUp()
     {
-        Debug.Log("OnMouseUp");
+        Debug.Log(gameObject.name);
     }
 }

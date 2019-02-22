@@ -23,6 +23,7 @@ public class BoardController : MonoBehaviour
     {
         List<List<GameObject>> superCubes = new List<List<GameObject>>();
         float superCubeDistance = (3 * (subCubeSize + subCubeGap)) + superCubeGap;
+        int superIndex = 0;
         for (int x = -1; x < 2; x++)
         {
             for (int y = -1; y < 2; y++)
@@ -30,17 +31,19 @@ public class BoardController : MonoBehaviour
                 for (int z = -1; z < 2; z++)
                 {
                     Vector3 position = new Vector3(x * superCubeDistance, y * superCubeDistance, z * superCubeDistance);
-                    superCubes.Add(CreateSubCubes(position));
+                    superCubes.Add(CreateSubCubes(position, superIndex));
+                    superIndex++;
                 }
             }
         }
         return superCubes;
     }
 
-    List<GameObject> CreateSubCubes(Vector3 cubePosition)
+    List<GameObject> CreateSubCubes(Vector3 cubePosition, int superIndex)
     {
         List<GameObject> subCubes = new List<GameObject>();
         float subCubeDistance = subCubeSize + subCubeGap;
+        int subIndex = 0;
         for (int x = -1; x < 2; x++)
         {
             for (int y = -1; y < 2; y++)
@@ -51,7 +54,9 @@ public class BoardController : MonoBehaviour
                     GameObject subCube = Instantiate(cubePrefab, position, Quaternion.identity);
                     subCube.transform.localScale = new Vector3(subCubeSize, subCubeSize, subCubeSize);
                     subCube.transform.parent = board;
+                    subCube.name = superIndex.ToString() + "," + subIndex.ToString();
                     subCubes.Add(subCube);
+                    subIndex++;
                 }
             }
         }
