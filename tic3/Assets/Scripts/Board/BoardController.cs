@@ -21,7 +21,7 @@ public class BoardController : MonoBehaviour
     private const int blueWon = 2;
     private const float subCubeSize = 1f;
     private bool isGameOver;
-    private bool isFirstMove;
+    private bool isFirstTurn;
     private int currentIndex;
     private GameObject prefab;
     private List<List<GameObject>> cubes;
@@ -117,7 +117,7 @@ public class BoardController : MonoBehaviour
     {
         for (int i = 0; i < cubes.Count; i++)
         {
-            if (cubeStatus[i] == fullStatus || (isFirstMove && i == 13))
+            if (cubeStatus[i] == fullStatus || (isFirstTurn && i == 13))
             {
                 Hide(i);
             }
@@ -195,7 +195,7 @@ public class BoardController : MonoBehaviour
                 isGameOver = true;
             }
             currentIndex = (cubeStatus[subIndex] == fullStatus) ? anywhereIndex : subIndex;
-            isFirstMove = false;
+            isFirstTurn = false;
             Render();
             return true;
         }
@@ -218,7 +218,7 @@ public class BoardController : MonoBehaviour
         cubeWinner = new List<int>(new int[cubes.Count]);
         currentIndex = anywhereIndex;
         isGameOver = false;
-        isFirstMove = true;
+        isFirstTurn = true;
         Render();
     }
 }
