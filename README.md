@@ -27,3 +27,11 @@ tic<sup>3</sup> (pronounced "tick cubed") is a variant of 3D ultimate tic-tac-to
 - Press space to toggle automatic camera rotation.
 
 - Click on the reset button to reset the game.
+
+# Credits
+
+"Unity" Kevin MacLeod (incompetech.com)
+
+Licensed under Creative Commons: By Attribution 3.0 License
+
+http://creativecommons.org/licenses/by/3.0/
