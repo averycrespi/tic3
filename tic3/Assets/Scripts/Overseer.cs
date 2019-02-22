@@ -4,6 +4,7 @@ using UnityEngine;
 public class Overseer : MonoBehaviour
 {
     public static Overseer instance = null;
+    public static int anywhereIndex = -1;
 
     public GameObject board;
     public Material normal;
@@ -27,7 +28,7 @@ public class Overseer : MonoBehaviour
 
         controller = board.GetComponent<BoardController>();
         controller.InitializeBoard();
-        legalIndex = -1;
+        legalIndex = anywhereIndex;
         isRedTurn = true;
     }
 
@@ -43,9 +44,7 @@ public class Overseer : MonoBehaviour
             controller.SetMaterial(superIndex, subIndex, m);
             isRedTurn = !isRedTurn;
 
-            //TODO: completion checks
-
-            legalIndex = controller.IsFull(superIndex) ? -1 : subIndex;
+            legalIndex = controller.IsFull(superIndex) ? anywhereIndex : subIndex;
             controller.Show(legalIndex);
         }
     }

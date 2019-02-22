@@ -124,7 +124,11 @@ public class BoardController : MonoBehaviour
             foreach (GameObject sub in superCubes[i])
             {
                 Renderer r = sub.GetComponent<Renderer>();
-                if (i == superIndex)
+                if (IsFull(i))
+                {
+                    MarkHidden(r);
+                }
+                else if (i == superIndex || superIndex == Overseer.anywhereIndex)
                 {
                     MarkNormal(r);
                 }
