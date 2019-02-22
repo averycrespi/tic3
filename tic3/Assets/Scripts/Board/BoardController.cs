@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class BoardController : MonoBehaviour
@@ -126,6 +127,30 @@ public class BoardController : MonoBehaviour
         }
     }
 
+    private bool IsWon(int superIndex)
+    {
+        List<GameObject> subs = cubes[superIndex];
+        foreach (Tuple<int, int, int> winSet in BoardHelper.winSets)
+        {
+            Material m1 = subs[winSet.Item1].GetComponent<Renderer>().sharedMaterial;
+            Material m2 = subs[winSet.Item2].GetComponent<Renderer>().sharedMaterial;
+            Material m3 = subs[winSet.Item3].GetComponent<Renderer>().sharedMaterial;
+            if (m1 != normal && m1 == m2 && m2 == m3)
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private void Fill(int superIndex, Material m)
+    {
+        foreach(GameObject sub in cubes[superIndex])
+        {
+            sub.GetComponent<Renderer>().material = m;
+        }
+    }
+
     public bool Play(int superIndex, int subIndex, Material m)
     {
         Renderer target = cubes[superIndex][subIndex].GetComponent<Renderer>();
@@ -133,8 +158,12 @@ public class BoardController : MonoBehaviour
         {
             target.material = m;
             cubeStatus[superIndex]++;
-            currentIndex = (cubeStatus[superIndex] == fullStatus) ? anywhereIndex : subIndex;
-            //TODO: check for sub/super win
+            if (IsWon(superIndex))
+            {
+                Fill(superIndex, m);
+                cubeStatus[superIndex] = fullStatus;
+            }
+            currentIndex = (cubeStatus[subIndex] == fullStatus) ? anywhereIndex : subIndex;
             Render();
             return true;
         }
