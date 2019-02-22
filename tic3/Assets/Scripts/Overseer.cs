@@ -23,4 +23,9 @@ public class Overseer : MonoBehaviour
         controller = board.GetComponent<BoardController>();
         controller.InitializeBoard();
     }
+
+    public void HandleClick(GameObject cube)
+    {
+        controller.HideAllExcept(0);
+    }
 }

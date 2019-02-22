@@ -334,6 +334,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   board: {fileID: 1591135697}
+  normal: {fileID: 2100000, guid: 4027a2df7d016eb4f9059388d75eaaeb, type: 2}
+  hidden: {fileID: 2100000, guid: 7ddb5b02debf4ea4f8b93c5ea39f2d12, type: 2}
   subCubeGap: 1
   superCubeGap: 3
 --- !u!23 &1591135695

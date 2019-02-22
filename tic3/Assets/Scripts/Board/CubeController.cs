@@ -2,8 +2,16 @@
 
 public class CubeController : MonoBehaviour
 {
+    private Overseer overseer;
+
+    void Start()
+    {
+        overseer = GameObject.Find("Overseer").GetComponent<Overseer>();
+    }
+
     void OnMouseUp()
     {
-        Debug.Log(gameObject.name);
+        Debug.Log("Click on: " + gameObject.name);
+        overseer.HandleClick(gameObject);
     }
 }

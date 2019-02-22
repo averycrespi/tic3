@@ -4,6 +4,8 @@ using UnityEngine;
 public class BoardController : MonoBehaviour
 {
     public Transform board;
+    public Material normal;
+    public Material hidden;
 
     public float subCubeGap = 1f;
     public float superCubeGap = 3f;
@@ -11,13 +13,6 @@ public class BoardController : MonoBehaviour
     private float subCubeSize = 1f;
     private GameObject cubePrefab;
     private List<List<GameObject>> cubes;
-
-    public void InitializeBoard()
-    {
-        Debug.Log("Initializing board");
-        cubePrefab = Resources.Load<GameObject>("Prefabs/Cube");
-        cubes = CreateSuperCubes();
-    }
 
     List<List<GameObject>> CreateSuperCubes()
     {
@@ -61,5 +56,41 @@ public class BoardController : MonoBehaviour
             }
         }
         return subCubes;
+    }
+
+    public void InitializeBoard()
+    {
+        Debug.Log("Initializing board");
+        cubePrefab = Resources.Load<GameObject>("Prefabs/Cube");
+        cubes = CreateSuperCubes();
+    }
+
+    public void UnhideAll()
+    {
+        Debug.Log("Unhiding all cubes");
+        foreach (List<GameObject> super in cubes)
+        {
+            foreach (GameObject sub in super)
+            {
+                Renderer rend = sub.GetComponent<Renderer>();
+                rend.material = normal;
+            }
+        }
+    }
+
+    public void HideAllExcept(int index)
+    {
+        Debug.Log("Hiding all cubes except: " + index.ToString());
+        for (int i = 0; i < cubes.Count; i++)
+        {
+            if (i != index)
+            {
+                foreach (GameObject sub in cubes[i])
+                {
+                    Renderer rend = sub.GetComponent<Renderer>();
+                    rend.material = hidden;
+                }
+            }
+        }
     }
 }
