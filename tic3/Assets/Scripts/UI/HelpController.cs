@@ -7,7 +7,7 @@ public class HelpController : MonoBehaviour
     public Button helpButton;
 
     private const int windowWidth = 300;
-    private const int windowHeight = 200;
+    private const int windowHeight = 220;
     private const int itemHeight = 20;
     private const int itemOffset = 25;
     private Rect confirmRect;
@@ -39,9 +39,10 @@ public class HelpController : MonoBehaviour
         GUI.Label(new Rect(5, itemOffset * 2, confirmRect.width - 10, itemHeight), "Click and drag to rotate the camers");
         GUI.Label(new Rect(5, itemOffset * 3, confirmRect.width - 10, itemHeight), "Scroll to zoom in or out");
         GUI.Label(new Rect(5, itemOffset * 4, confirmRect.width - 10, itemHeight), "Press space to toggle automatic camera rotation");
-        GUI.Label(new Rect(5, itemOffset * 5, confirmRect.width - 10, itemHeight), "Press m to toggle background music");
-        GUI.Label(new Rect(5, itemOffset * 6, confirmRect.width - 10, itemHeight), "Press r to reset the game");
-        if (GUI.Button(new Rect(5, itemOffset * 7, confirmRect.width - 10, itemHeight), "Cancel"))
+        GUI.Label(new Rect(5, itemOffset * 5, confirmRect.width - 10, itemHeight), "Press M to toggle background music");
+        GUI.Label(new Rect(5, itemOffset * 6, confirmRect.width - 10, itemHeight), "Press R to reset the game");
+        GUI.Label(new Rect(5, itemOffset * 7, confirmRect.width - 10, itemHeight), "Press Q to quit the game");
+        if (GUI.Button(new Rect(5, itemOffset * 8, confirmRect.width - 10, itemHeight), "Cancel"))
         {
             show = false;
         }
