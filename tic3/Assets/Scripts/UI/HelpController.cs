@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class HelpController : MonoBehaviour
@@ -40,8 +39,8 @@ public class HelpController : MonoBehaviour
         GUI.Label(new Rect(5, itemOffset * 3, confirmRect.width - 10, itemHeight), "Scroll to zoom in or out");
         GUI.Label(new Rect(5, itemOffset * 4, confirmRect.width - 10, itemHeight), "Press space to toggle automatic camera rotation");
         GUI.Label(new Rect(5, itemOffset * 5, confirmRect.width - 10, itemHeight), "Press M to toggle background music");
-        GUI.Label(new Rect(5, itemOffset * 6, confirmRect.width - 10, itemHeight), "Press R to reset the game");
-        GUI.Label(new Rect(5, itemOffset * 7, confirmRect.width - 10, itemHeight), "Press Q to quit the game");
+        GUI.Label(new Rect(5, itemOffset * 6, confirmRect.width - 10, itemHeight), "Hold R to reset");
+        GUI.Label(new Rect(5, itemOffset * 7, confirmRect.width - 10, itemHeight), "Hold Q to quit");
         if (GUI.Button(new Rect(5, itemOffset * 8, confirmRect.width - 10, itemHeight), "Cancel"))
         {
             show = false;
