@@ -1,49 +1,54 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 using UnityEngine.UI;
 
 public class HelpController : MonoBehaviour
 {
     public Button helpButton;
+    public Font font;
+    public const int fieldHeight = 25;
+    public const int fieldOffset = 0;
+    public const int windowWidth = 300;
 
-    private const int windowWidth = 300;
-    private const int windowHeight = 220;
-    private const int itemHeight = 20;
-    private const int itemOffset = 25;
+    private int windowHeight;
+    private List<string> fields;
     private Rect confirmRect;
     private bool show;
 
     private void Start()
     {
-        helpButton.onClick.AddListener(ShowHelp);
+        helpButton.onClick.AddListener(
+            () => {show = !show;}
+        );
+        fields = new List<string>(new string[]
+        {
+            "Click on a cube to make a move",
+            "Click and drag to rotate the camera",
+            "Scroll to zoom in or out",
+            "Press space to toggle idle mode",
+            "Press M to toggle background music",
+            "Hold R to reset",
+            "Hold Q to quit"
+        });
+        windowHeight = (fieldHeight * fields.Count) + (fieldOffset * (fields.Count - 1));
         confirmRect = new Rect(Screen.width - windowWidth - 10, Screen.height - windowHeight - 10, windowWidth, windowHeight);
-        show = false;
-    }
-
-    private void ShowHelp()
-    {
-        show = true;
     }
 
     private void OnGUI()
     {
         if (show)
         {
-            confirmRect = GUI.Window(1, confirmRect, DialogWindow, "Help");
+            confirmRect = GUI.Window(1, confirmRect, DialogWindow, "");
+            GUI.skin.font = font;
         }
     }
 
     private void DialogWindow(int windowID)
     {
-        GUI.Label(new Rect(5, itemOffset, confirmRect.width - 10, itemHeight), "Click on a cube to make a move");
-        GUI.Label(new Rect(5, itemOffset * 2, confirmRect.width - 10, itemHeight), "Click and drag to rotate the camers");
-        GUI.Label(new Rect(5, itemOffset * 3, confirmRect.width - 10, itemHeight), "Scroll to zoom in or out");
-        GUI.Label(new Rect(5, itemOffset * 4, confirmRect.width - 10, itemHeight), "Press space to toggle automatic camera rotation");
-        GUI.Label(new Rect(5, itemOffset * 5, confirmRect.width - 10, itemHeight), "Press M to toggle background music");
-        GUI.Label(new Rect(5, itemOffset * 6, confirmRect.width - 10, itemHeight), "Hold R to reset");
-        GUI.Label(new Rect(5, itemOffset * 7, confirmRect.width - 10, itemHeight), "Hold Q to quit");
-        if (GUI.Button(new Rect(5, itemOffset * 8, confirmRect.width - 10, itemHeight), "Cancel"))
+        for (int i = 0; i < fields.Count; i++)
         {
-            show = false;
+            float y = (fieldHeight + fieldOffset) * i;
+            GUI.Label(new Rect(5, y, confirmRect.width - 5, fieldHeight), fields[i]);
         }
     }
 }

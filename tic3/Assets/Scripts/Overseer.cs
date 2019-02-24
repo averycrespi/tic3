@@ -34,7 +34,7 @@ public class Overseer : MonoBehaviour
     private void UpdateTurn()
     {
         isRedTurn = !isRedTurn;
-        turnText.text = isRedTurn ? "Red's Turn" : "Blue's Turn";
+        turnText.text = isRedTurn ? "RED'S TURN" : "BLUE'S TURN";
         turnText.color = isRedTurn ? Color.red : Color.blue;
     }
 
@@ -49,7 +49,7 @@ public class Overseer : MonoBehaviour
             UpdateTurn();
             if (controller.IsGameOver())
             {
-                turnText.text = isRedTurn ? "Blue Wins!" : "Red Wins!";
+                turnText.text = isRedTurn ? "BLUE WINS!" : "RED WINS!";
                 turnText.color = isRedTurn ? Color.blue : Color.red;
             }
         }
