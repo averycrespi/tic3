@@ -1,7 +1,7 @@
 # tic<sup>3</sup>
 tic<sup>3</sup> (pronounced "tick cubed") is a variant of 3D ultimate tic-tac-toe.
 
-![tic3](images/tic3.png)
+![tic3](images/tic3.png width=480)
 
 ## How to play
 
