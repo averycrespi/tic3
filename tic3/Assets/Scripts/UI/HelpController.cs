@@ -22,9 +22,7 @@ public class HelpController : MonoBehaviour
         );
         fields = new List<string>(new string[]
         {
-            "Click on a cube to make a move",
-            "Click and drag to rotate the camera",
-            "Scroll to zoom in or out",
+            "Use WASD to control the camera",
             "Press space to toggle idle mode",
             "Press M to toggle background music",
             "Hold R to reset",
