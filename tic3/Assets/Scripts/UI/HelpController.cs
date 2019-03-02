@@ -24,6 +24,7 @@ public class HelpController : MonoBehaviour
         {
             "Use WASD to control the camera",
             "Press space to toggle idle mode",
+            "Press E to toggle camera position",
             "Press M to toggle background music",
             "Hold R to reset",
             "Hold Q to quit"
